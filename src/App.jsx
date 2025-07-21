@@ -8,6 +8,7 @@ import Main from './pages/main'
 import Search from './pages/search'
 import Favorite from './pages/favorite'
 
+
 function App() {
   const dispatch = useDispatch()
 
@@ -17,8 +18,9 @@ function App() {
 
   return (
     <>
-      <h1 className='text-[40px]'>포켓몬 도감</h1>
-      <nav>
+      {/* <h1 className='text-[40px]'>포켓몬 도감</h1> */}
+      <img className='h-[200px] mx-auto my-[50px]' src='/logo.png' />
+      <nav className='flex justify-center gap-[20px]'>
         <Link to={'/'}>메인</Link>
         <Link to={'/detail'}>상세정보</Link>
         <Link to={'/search'}>검색</Link>
@@ -32,6 +34,7 @@ function App() {
           <Route path={'/favorite'} element={ <Favorite />} />
         </Routes>
       </main>
+      <img className="w-[400px] mx-auto my-[50px]"src='/jammanbo.PNG'/>
     </>
   )
 }

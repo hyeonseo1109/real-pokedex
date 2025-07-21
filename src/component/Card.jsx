@@ -3,7 +3,8 @@ import styled from "styled-components"
 
 const CardContainer = styled.section `
     width: 150px;
-    border: 1px solid gray;
+    /* border: 1px solid gray; */
+    box-shadow: 0 0 15px #3ea487;
     display: flex;
     flex-direction: column ;
     justify-content: center;
@@ -11,9 +12,15 @@ const CardContainer = styled.section `
     gap: 10px;
     padding-bottom: 10px;
     border-radius: 10px;
+    background-color: #ffffffcc;
 
     img {
         width: 120px;
+    }
+
+    &:hover {
+        background-color: #fff;
+        box-shadow: 0 0 25px #3ea487;
     }
 
 `
