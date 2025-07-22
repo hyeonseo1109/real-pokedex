@@ -1,12 +1,16 @@
 import { useDispatch } from 'react-redux'
 import './App.css'
-import { useEffect } from 'react'
+import { useEffect, lazy, Suspense } from 'react'
 import { fetchMultiplePokemonById } from './RTK/thunk'
 import { Link, Routes, Route, useNavigate } from 'react-router-dom'
-import Detail from './pages/detail'
-import Main from './pages/main'
-import Search from './pages/search'
-import Favorite from './pages/favorite'
+// import Detail from './pages/detail'
+// import Main from './pages/main'
+// import Search from './pages/search'
+// import Favorite from './pages/favorite'
+const Main = lazy(() => import('./pages/main') )
+const Detail = lazy(() => import('./pages/detail'))
+const Search = lazy(() => import('./pages/search'))
+const Favorite = lazy(() => import('./pages/favorite'))
 
 
 function App() {
@@ -30,12 +34,14 @@ function App() {
         </div>
       </nav>
       <main className='flex justify-center flex-wrap gap-[20px] pt-[20px]'>
-        <Routes>
-          <Route path={'/'} element={ <Main />} />
-          <Route path={'/detail/:pokemonId'} element={ <Detail />} />
-          <Route path={'/search'} element={ <Search />} />
-          <Route path={'/favorite'} element={ <Favorite />} />
-        </Routes>
+        <Suspense fallback={<div>로딩중...</div>}>
+          <Routes>
+            <Route path={'/'} element={ <Main />} />
+            <Route path={'/detail/:pokemonId'} element={ <Detail />} />
+            <Route path={'/search'} element={ <Search />} />
+            <Route path={'/favorite'} element={ <Favorite />} />
+          </Routes>
+        </Suspense>
       </main>
       <img className="w-[400px] mx-auto my-[50px]"src='/jammanbo.PNG'/>
     </>
