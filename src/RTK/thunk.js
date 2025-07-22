@@ -5,24 +5,43 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const fetchMultiplePokemonById = createAsyncThunk(
     'pokemon/fetchMultiplePokemonById',
-    async (maxPokemonId) => {
+    async (maxPokemonId, thunkAPI) => {
         const numberArray = Array.from( 
             {length: maxPokemonId}, 
             (_, i) => i +1 )
         
             const fetchAPI = async (pokemonId) => {
-                const reponse = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemonId}/`)
-                const data = await reponse.json()
+                try {
+                    const response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemonId}/`)
+                    if (!response.ok) throw new Error('Network error');
+                    const data = await response.json()
 
-                const pokemonData = {
+                    const pokemonData = {
+                        id: pokemonId,
+                        name: data.names.find(el => el.language.name=== 'ko').name,
+                        description: data.flavor_text_entries.find(el=>el.language.name==='ko').flavor_text,
+                        front:`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`,
+                        back: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${pokemonId}.png`
+                    }
+                    return pokemonData;
+                } catch (e) {
+                console.error("포켓몬 가져오기 실패:", e);
+                return {
                     id: pokemonId,
-                    name: data.names.find(el => el.language.name=== 'ko').name,
-                    description: data.flavor_text_entries.find(el=>el.language.name==='ko').flavor_text,
-                    front:`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`,
-                    back: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${pokemonId}.png`
+                    name: "오잉?",
+                    description: "포켓몬이 어디 숨었지?",
+                    front: "",
+                    back: "",
+                    error: true // ← UI에서 식별 가능
                 }
-                return pokemonData
             }
-            return await Promise.all(numberArray.map( (el) => fetchAPI(el)))
+        };
+        try {
+            const result = await Promise.all(numberArray.map( (el) => fetchAPI(el)));
+            return result;
+        } catch (e) {
+            console.error(`포켓몬 가져오기 실패`, e);
+            return thunkAPI.rejectWithValue("전체 포켓몬 데이터를 불러오는 데 실패했습니다.");
+        }
     }
 )
