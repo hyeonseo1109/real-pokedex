@@ -10,6 +10,11 @@ export default function Search() {
     const reg = getRegExp(param)
     const pokemon = useSelector(selectPokemonByRegExp(reg))
     console.log(pokemon)
+    if (!pokemon) {
+        return (
+            <div>흠.. 포켓몬이 어디 숨었지?</div>
+        )
+    }
     return (
     <>
         {pokemon.map(el => <Card key={el.id} pokemon={el} />
