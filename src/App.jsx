@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux'
 import './App.css'
 import { useEffect } from 'react'
 import { fetchMultiplePokemonById } from './RTK/thunk'
-import { Link, Routes, Route } from 'react-router-dom'
+import { Link, Routes, Route, useNavigate } from 'react-router-dom'
 import Detail from './pages/detail'
 import Main from './pages/main'
 import Search from './pages/search'
@@ -10,6 +10,7 @@ import Favorite from './pages/favorite'
 
 
 function App() {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
 
   useEffect( ()=> {
@@ -22,9 +23,11 @@ function App() {
       <img className='h-[200px] mx-auto my-[50px]' src='/logo.png' />
       <nav className='flex justify-center gap-[20px]'>
         <Link to={'/'}>메인</Link>
-        <Link to={'/detail'}>상세정보</Link>
-        <Link to={'/search'}>검색</Link>
         <Link to={'/favorite'}>찜목록</Link>
+        <div>
+          <input onChange={(e)=> navigate(`/search?pokemon=${e.target.value}`)} className='w-[120px] border-b border-[darkgray] px-2'/>
+          <span>🔍</span>
+        </div>
       </nav>
       <main className='flex justify-center flex-wrap gap-[20px] pt-[20px]'>
         <Routes>
