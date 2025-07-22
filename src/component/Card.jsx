@@ -1,40 +1,20 @@
 import { useNavigate} from "react-router-dom"
 import { memo, useState } from "react"
-import styled from "styled-components"
 import FavoriteButton from "./FavoriteButton"
 
-const CardContainer = styled.section `
-    width: 150px;
-    /* border: 1px solid gray; */
-    box-shadow: 0 0 15px #3ea487;
-    display: flex;
-    flex-direction: column ;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    padding-bottom: 10px;
-    border-radius: 10px;
-    background-color: #ffffffcc;
-    transition: 0.15s;
-
-    img {
-        width: 120px;
-    }
-
-    &:hover {
-        background-color: #fff;
-        box-shadow: 0 0 25px #3ea487;
-        transform: scale(1.03);
-        transition: 0.15s;
-    }
-
-`
 
 export const Card = memo(( {pokemon} ) => {
     const [isImageLoading, setIsImageLoading] = useState(true);
     const navigate = useNavigate()
     return (
-        <CardContainer onClick={() => navigate(`/detail/${pokemon.id}`)}>
+        <section onClick={() => navigate(`/detail/${pokemon.id}`)}
+        className="
+            flex flex-col justify-center items-center gap-[10px] pb-[10px] rounded-[10px] w-[150px]
+            shadow-[0_0_15px_#3ea487]  bg-[#ffffffcc] 
+            transition-transform duration-150 
+            hover:bg-white hover:shadow-[0_0_25px_#3ea487] hover:scale-[1.03]
+        "
+        >
             {isImageLoading ? <div className="w-[120px] h-[120px] leading-[120px] text-center">로딩 중...</div> : null}
             <img onLoad={()=> setIsImageLoading(false)} 
                 src={pokemon.front} 
@@ -43,6 +23,6 @@ export const Card = memo(( {pokemon} ) => {
                 {pokemon.name}
                 <FavoriteButton pokemonId={pokemon.id}/>
             </div>
-        </CardContainer>
+        </section>
     )
 })

@@ -32,7 +32,6 @@ export const fetchMultiplePokemonById = createAsyncThunk(
                     description: "포켓몬이 어디 숨었지?",
                     front: "",
                     back: "",
-                    error: true // ← UI에서 식별 가능
                 }
             }
         };
